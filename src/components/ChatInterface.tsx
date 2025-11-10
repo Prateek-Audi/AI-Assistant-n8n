@@ -19,7 +19,7 @@ export function ChatInterface() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const webhookUrl = "https://prateek-audi.app.n8n.cloud/webhook/chat";
+  const webhookUrl = "https://prateek1234-audi.app.n8n.cloud/webhook/chat";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -63,7 +63,7 @@ export function ChatInterface() {
       }
 
       const textContent = await response.text();
-      
+
       if (!textContent || textContent.trim() === '') {
         throw new Error('Received empty response from AI');
       }
@@ -74,7 +74,7 @@ export function ChatInterface() {
       } catch (jsonError) {
         throw new Error('Invalid response format from AI');
       }
-      
+
       const assistantMessage: Message = {
         role: 'assistant',
         content: data.response || data.output || data.text || "No response received",
@@ -85,7 +85,7 @@ export function ChatInterface() {
 
     } catch (error) {
       console.error('Error:', error);
-      
+
       // Check if the request was aborted
       if (error instanceof Error && error.name === 'AbortError') {
         const stoppedMessage: Message = {
@@ -97,14 +97,14 @@ export function ChatInterface() {
         toast.info("Response stopped");
         return;
       }
-      
+
       const errorMessage: Message = {
         role: 'assistant',
         content: `❌ Sorry, I encountered an error. Please try again.`,
         timestamp: new Date().toISOString()
       };
       setMessages(prev => [...prev, errorMessage]);
-      
+
       toast.error("Failed to get response", {
         description: error instanceof Error ? error.message : "Unknown error"
       });
@@ -172,7 +172,7 @@ export function ChatInterface() {
                 <p className="text-sm text-slate-500">
                   Ask me anything - I'm here to assist you!
                 </p>
-                
+
                 {/* Suggested Prompts */}
                 <div className="space-y-3 pt-4">
                   <p className="text-xs text-slate-500">Try asking:</p>
@@ -200,15 +200,14 @@ export function ChatInterface() {
                   className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-3 space-y-2 ${
-                      message.role === 'user'
-                        ? 'bg-gradient-to-br from-indigo-600 to-indigo-700 text-white shadow-lg'
-                        : message.content.startsWith('❌')
+                    className={`max-w-[80%] rounded-2xl px-4 py-3 space-y-2 ${message.role === 'user'
+                      ? 'bg-gradient-to-br from-indigo-600 to-indigo-700 text-white shadow-lg'
+                      : message.content.startsWith('❌')
                         ? 'bg-red-50 text-red-900 border-2 border-red-200'
                         : message.content.startsWith('⏹️')
-                        ? 'bg-orange-50 text-orange-900 border-2 border-orange-200'
-                        : 'bg-white border-2 border-slate-200 shadow-md'
-                    }`}
+                          ? 'bg-orange-50 text-orange-900 border-2 border-orange-200'
+                          : 'bg-white border-2 border-slate-200 shadow-md'
+                      }`}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1">
@@ -276,8 +275,8 @@ export function ChatInterface() {
               className="flex-1 h-12 text-base border-2 focus:border-indigo-400"
             />
             {isLoading ? (
-              <Button 
-                onClick={handleStopGeneration} 
+              <Button
+                onClick={handleStopGeneration}
                 size="lg"
                 variant="destructive"
                 className="h-12 px-6 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
@@ -286,8 +285,8 @@ export function ChatInterface() {
                 Stop
               </Button>
             ) : (
-              <Button 
-                onClick={handleSend} 
+              <Button
+                onClick={handleSend}
                 disabled={!input.trim()}
                 size="lg"
                 className="h-12 px-6 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800"
@@ -296,7 +295,7 @@ export function ChatInterface() {
               </Button>
             )}
           </div>
-          
+
           {messages.length > 0 && (
             <div className="flex justify-end">
               <Button
